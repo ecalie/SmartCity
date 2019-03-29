@@ -124,10 +124,16 @@ public class Ville {
         return null;
     }
 
-    public int nombreVoituresArretes(Feu feu) {
+    public int nombreVoituresFeu(Feu feu) {
         int res = 0;
         for (Voiture v : voitures)
-            if (v.getFeu() == feu)
+            if (feu.getOrientation() == Direction.Nord && v.getX() == feu.getX() && v.getY() >= feu.getY() && v.getY() <= feu.getY() + Constante.champVisionFeu)
+                res++;
+            else if (feu.getOrientation() == Direction.Sud && v.getX() == feu.getX() && v.getY() <= feu.getY() && v.getY() >= feu.getY() - Constante.champVisionFeu)
+                res++;
+            else if (feu.getOrientation() == Direction.Ouest && v.getY() == feu.getY() && v.getX() >= feu.getX() && v.getX() <= feu.getX() + Constante.champVisionFeu)
+                res++;
+            else if (feu.getOrientation() == Direction.Est && v.getY() == feu.getY() && v.getX() <= feu.getX() && v.getX() >= feu.getX() - Constante.champVisionFeu)
                 res++;
         return res;
     }

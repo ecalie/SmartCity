@@ -1,11 +1,11 @@
 import intelligence_artificielle.vue.FenetreLogging;
-import simulation.modele.agent.Feu;
 
 public aspect LoggingTourControle {
 
     pointcut reception(): execution (public void simulation.modele.agent.TourControle.traiterMessage(..));
 
-    after(): reception() {
+    before(): reception() {
+        System.out.println("recep");
         FenetreLogging.ajouter(thisJoinPoint.getArgs()[0].toString());
     }
 

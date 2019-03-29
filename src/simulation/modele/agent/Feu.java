@@ -50,17 +50,17 @@ public class Feu extends Observable implements Agent {
     public void run() {
         int oldNb = nbVoitures;
         while (true) {
-            nbVoitures = ville.nombreVoituresArretes(this);
+            nbVoitures = ville.nombreVoituresFeu(this);
             if (nbVoitures != oldNb) {
                 this.envoyerMessage(new MessageNombreVoitures(this, TourControle.getInstance(), nbVoitures));
                 oldNb = nbVoitures;
             }
 
-            try {
+          /*  try {
                 Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
         }
     }
 

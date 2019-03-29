@@ -10,7 +10,7 @@ import simulation.vue.FenetreSimulation;
 public class Main {
 
     public static void main(String[] args) {
-        Ville ville = new Ville(500, 500);
+        Ville ville = new Ville(440, 440);
 
      /*   ville.ajouter(new Route(0, 50, 500, Constante.largeurRoute));
         ville.ajouter(new Route(100, 0, Constante.largeurRoute, 50));
