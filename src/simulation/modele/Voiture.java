@@ -42,8 +42,7 @@ public class Voiture extends Observable implements Runnable {
             boolean continuer;
             if (feu != null) {
                 continuer = feu.getCouleur() == Couleur.Vert;
-            }
-            else
+            } else
                 continuer = !this.chercherFeuRouge() && !this.chercherVoiture();
 
             while (continuer) {
@@ -88,13 +87,13 @@ public class Voiture extends Observable implements Runnable {
 
     private boolean chercherFeuRouge() {
         if (direction == Direction.Nord)
-            feu = ville.presenceFeuRouge(x, y - 5 - Constante.longueurVoiture / 2);
+            feu = ville.presenceFeuRouge(x, y - 5 - Constante.longueurVoiture / 2, x, y - Constante.longueurVoiture / 2);
         else if (direction == Direction.Sud)
-            feu = ville.presenceFeuRouge(x, y + 5 + Constante.longueurVoiture / 2);
+            feu = ville.presenceFeuRouge(x, y + Constante.longueurVoiture / 2, x, y + 5 + Constante.longueurVoiture / 2);
         else if (direction == Direction.Est)
-            feu = ville.presenceFeuRouge(x + 5 + Constante.longueurVoiture / 2, y);
+            feu = ville.presenceFeuRouge(x + Constante.longueurVoiture / 2, y, x + 5 + Constante.longueurVoiture / 2, y);
         else
-            feu = ville.presenceFeuRouge(x - 5 - Constante.longueurVoiture / 2, y);
+            feu = ville.presenceFeuRouge(x - 5 - Constante.longueurVoiture / 2, y, x - Constante.longueurVoiture / 2, y);
 
         return (feu != null);
     }

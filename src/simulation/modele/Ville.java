@@ -97,9 +97,12 @@ public class Ville {
         this.voitures.clear();
     }
 
-    public Feu presenceFeuRouge(int x, int y) {
+    public Feu presenceFeuRouge(int x1, int y1, int x2, int y2) {
+        assert (x1 <= x2);
+        assert (y1 <= y2);
+
         for (Feu f : feux)
-            if (f.getX() == x && f.getY() == y && f.getCouleur() == Couleur.Rouge)
+            if (x1 <= f.getX() && f.getX() <= x2 && y1 <= f.getY() && f.getY() <= y2 && f.getCouleur() == Couleur.Rouge)
                 return f;
         return null;
     }
@@ -127,14 +130,15 @@ public class Ville {
     public int nombreVoituresFeu(Feu feu) {
         int res = 0;
         for (Voiture v : voitures)
-            if (feu.getOrientation() == Direction.Nord && v.getX() == feu.getX() && v.getY() >= feu.getY() && v.getY() <= feu.getY() + Constante.champVisionFeu)
-                res++;
-            else if (feu.getOrientation() == Direction.Sud && v.getX() == feu.getX() && v.getY() <= feu.getY() && v.getY() >= feu.getY() - Constante.champVisionFeu)
-                res++;
-            else if (feu.getOrientation() == Direction.Ouest && v.getY() == feu.getY() && v.getX() >= feu.getX() && v.getX() <= feu.getX() + Constante.champVisionFeu)
-                res++;
-            else if (feu.getOrientation() == Direction.Est && v.getY() == feu.getY() && v.getX() <= feu.getX() && v.getX() >= feu.getX() - Constante.champVisionFeu)
-                res++;
+            if (v.getDirection() == feu.getOrientation())
+                if (feu.getOrientation() == Direction.Nord && v.getX() == feu.getX() && v.getY() >= feu.getY() - Constante.largeurRoute && v.getY() <= feu.getY() + Constante.champVisionFeu)
+                    res++;
+                else if (feu.getOrientation() == Direction.Sud && v.getX() == feu.getX() && v.getY() <= feu.getY() + Constante.largeurRoute && v.getY() >= feu.getY() - Constante.champVisionFeu)
+                    res++;
+                else if (feu.getOrientation() == Direction.Ouest && v.getY() == feu.getY() && v.getX() >= feu.getX() - Constante.largeurRoute && v.getX() <= feu.getX() + Constante.champVisionFeu)
+                    res++;
+                else if (feu.getOrientation() == Direction.Est && v.getY() == feu.getY() && v.getX() <= feu.getX() + Constante.largeurRoute && v.getX() >= feu.getX() - Constante.champVisionFeu)
+                    res++;
         return res;
     }
 }

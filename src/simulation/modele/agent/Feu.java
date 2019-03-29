@@ -55,12 +55,6 @@ public class Feu extends Observable implements Agent {
                 this.envoyerMessage(new MessageNombreVoitures(this, TourControle.getInstance(), nbVoitures));
                 oldNb = nbVoitures;
             }
-
-          /*  try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
         }
     }
 
@@ -77,7 +71,6 @@ public class Feu extends Observable implements Agent {
             this.notifier();
         }
     }
-
 
     @Override
     public String toString() {
