@@ -1,10 +1,10 @@
-package simulation.vue;
+package vue;
 
-import simulation.modele.Constante;
-import simulation.modele.Simulateur;
-import simulation.modele.Ville;
-import simulation.modele.Voiture;
-import simulation.modele.agent.Feu;
+import modele.Constante;
+import modele.Simulateur;
+import modele.Ville;
+import modele.Voiture;
+import modele.agent.Feu;
 
 import javax.swing.*;
 import java.awt.*;
@@ -91,8 +91,8 @@ public class FenetreSimulation extends JFrame {
         sliderVitesse = new JSlider(0, 1, 20, 10);
         label.setLabelFor(sliderVitesse);
         sliderVitesse.addChangeListener(changeEvent -> {
-            label.setText(sliderVitesse.getValue()*10 + "%");
-            Constante.tempsPause = Constante.tempsPauseBase / sliderVitesse.getValue()*10;
+            label.setText(sliderVitesse.getValue() * 10 + "%");
+            Constante.tempsPause = Constante.tempsPauseBase / sliderVitesse.getValue() * 10;
         });
 
         sliderVitesse.setMajorTickSpacing(5);

@@ -1,6 +1,7 @@
-package simulation.modele;
+package modele;
 
-import simulation.modele.agent.Feu;
+import modele.agent.Feu;
+import modele.agent.TourControle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,8 @@ public class Simulateur {
             for (Feu f : ville.getFeux())
                 new Thread(f).start();
         }
+
+        TourControle.go(ville.getFeux());
     }
 
     public void pause() {

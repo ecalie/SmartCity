@@ -1,11 +1,10 @@
-import intelligence_artificielle.vue.FenetreLogging;
-import simulation.modele.agent.Feu;
-import simulation.modele.Constante;
-import simulation.modele.Direction;
-import simulation.modele.Route;
-import simulation.modele.Ville;
-import simulation.modele.agent.TourControle;
-import simulation.vue.FenetreSimulation;
+import vue.FenetreLogging;
+import modele.Constante;
+import modele.Direction;
+import modele.Route;
+import modele.Ville;
+import modele.agent.Feu;
+import vue.FenetreSimulation;
 
 public class Main {
 
@@ -46,7 +45,6 @@ public class Main {
         ville.ajouter(new Feu(240, 210, Direction.Ouest, ville));
         ville.ajouter(new Feu(230, 240, Direction.Nord, ville));
 
-        TourControle.initialiserInstance(ville.getFeux());
         new FenetreSimulation(ville);
         FenetreLogging.getInstance().setVisible(true);
     }

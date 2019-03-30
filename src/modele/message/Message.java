@@ -1,6 +1,6 @@
-package simulation.modele.message;
+package modele.message;
 
-import simulation.modele.agent.Agent;
+import modele.agent.Agent;
 
 public abstract class Message {
 
@@ -19,6 +19,10 @@ public abstract class Message {
 
     public Agent getEmetteur() {
         return emetteur;
+    }
+
+    public Agent getDestinataire() {
+        return destinataire;
     }
 
     public Performative getPerformative() {

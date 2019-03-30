@@ -1,6 +1,6 @@
-package simulation.modele.agent;
+package modele.agent;
 
-import simulation.modele.message.Message;
+import modele.message.Message;
 
 public interface Agent extends Runnable {
 

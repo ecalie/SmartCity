@@ -1,9 +1,7 @@
-package simulation.modele;
+package modele;
 
+import modele.agent.Feu;
 import observer.Observable;
-import simulation.modele.agent.Feu;
-
-import static simulation.modele.Direction.*;
 
 public class Voiture extends Observable implements Runnable {
     private int x;
@@ -47,13 +45,13 @@ public class Voiture extends Observable implements Runnable {
 
             while (continuer) {
                 feu = null;
-                if (direction == Nord)
+                if (direction == Direction.Nord)
                     y--;
-                if (direction == Sud)
+                if (direction == Direction.Sud)
                     y++;
-                if (direction == Est)
+                if (direction == Direction.Est)
                     x++;
-                if (direction == Ouest)
+                if (direction == Direction.Ouest)
                     x--;
 
                 // Si la voiture sort de la ville, elle réapparaît à un point d'entrée quelconque

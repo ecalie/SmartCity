@@ -1,6 +1,6 @@
-package simulation.vue;
+package vue;
 
-import simulation.modele.Route;
+import modele.Route;
 
 import java.awt.*;
 

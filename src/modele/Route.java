@@ -1,4 +1,4 @@
-package simulation.modele;
+package modele;
 
 public class Route {
     private int x;

@@ -1,4 +1,4 @@
-package simulation.modele.message;
+package modele.message;
 
 public enum Performative {
     Inform,

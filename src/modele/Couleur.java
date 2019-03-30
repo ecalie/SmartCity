@@ -1,4 +1,4 @@
-package simulation.modele;
+package modele;
 
 public enum Couleur {
     Vert,

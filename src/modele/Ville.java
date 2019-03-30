@@ -1,6 +1,6 @@
-package simulation.modele;
+package modele;
 
-import simulation.modele.agent.Feu;
+import modele.agent.Feu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,18 +127,18 @@ public class Ville {
         return null;
     }
 
-    public int nombreVoituresFeu(Feu feu) {
+    public int distancesVoituresFeu(Feu feu) {
         int res = 0;
         for (Voiture v : voitures)
             if (v.getDirection() == feu.getOrientation())
                 if (feu.getOrientation() == Direction.Nord && v.getX() == feu.getX() && v.getY() >= feu.getY() - Constante.largeurRoute && v.getY() <= feu.getY() + Constante.champVisionFeu)
-                    res++;
+                    res += Math.pow(v.getY() - feu.getY() + Constante.largeurRoute, 2);
                 else if (feu.getOrientation() == Direction.Sud && v.getX() == feu.getX() && v.getY() <= feu.getY() + Constante.largeurRoute && v.getY() >= feu.getY() - Constante.champVisionFeu)
-                    res++;
+                    res += Math.pow(feu.getY() + Constante.largeurRoute - v.getY(), 2);
                 else if (feu.getOrientation() == Direction.Ouest && v.getY() == feu.getY() && v.getX() >= feu.getX() - Constante.largeurRoute && v.getX() <= feu.getX() + Constante.champVisionFeu)
-                    res++;
+                    res += Math.pow(feu.getX() - feu.getX() + Constante.largeurRoute, 2);
                 else if (feu.getOrientation() == Direction.Est && v.getY() == feu.getY() && v.getX() <= feu.getX() + Constante.largeurRoute && v.getX() >= feu.getX() - Constante.champVisionFeu)
-                    res++;
+                    res += Math.pow(feu.getX() + Constante.largeurRoute - v.getX(), 2);
         return res;
     }
 }

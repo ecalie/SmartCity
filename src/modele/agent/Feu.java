@@ -1,12 +1,12 @@
-package simulation.modele.agent;
+package modele.agent;
 
+import modele.Couleur;
+import modele.Direction;
+import modele.Ville;
+import modele.message.Message;
 import observer.Observable;
-import simulation.modele.Couleur;
-import simulation.modele.Direction;
-import simulation.modele.Ville;
-import simulation.modele.message.Message;
-import simulation.modele.message.MessageChangementEtat;
-import simulation.modele.message.MessageNombreVoitures;
+import modele.message.MessageChangementEtat;
+import modele.message.MessageUtilite;
 
 public class Feu extends Observable implements Agent {
 
@@ -15,7 +15,7 @@ public class Feu extends Observable implements Agent {
     private Direction orientation;
     private Couleur couleur;
     private Ville ville;
-    private int nbVoitures;
+    private int utilite;
 
     public Feu(int x, int y, Direction orientation, Ville ville) {
         this.x = x;
@@ -23,7 +23,7 @@ public class Feu extends Observable implements Agent {
         this.orientation = orientation;
         this.couleur = Couleur.Rouge;
         this.ville = ville;
-        this.nbVoitures = 0;
+        this.utilite = 0;
     }
 
     public int getX() {
@@ -42,18 +42,18 @@ public class Feu extends Observable implements Agent {
         return orientation;
     }
 
-    public int getNbVoitures() {
-        return nbVoitures;
+    public int getUtilite() {
+        return utilite;
     }
 
     @Override
     public void run() {
-        int oldNb = nbVoitures;
+        int oldNb = utilite;
         while (true) {
-            nbVoitures = ville.nombreVoituresFeu(this);
-            if (nbVoitures != oldNb) {
-                this.envoyerMessage(new MessageNombreVoitures(this, TourControle.getInstance(), nbVoitures));
-                oldNb = nbVoitures;
+            utilite = ville.distancesVoituresFeu(this);
+            if (utilite != oldNb) {
+                this.envoyerMessage(new MessageUtilite(this, TourControle.getInstance(), utilite));
+                oldNb = utilite;
             }
         }
     }

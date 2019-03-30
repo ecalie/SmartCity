@@ -1,10 +1,10 @@
-package simulation.vue;
+package vue;
 
 import observer.Observer;
-import simulation.modele.agent.Feu;
-import simulation.modele.Route;
-import simulation.modele.Ville;
-import simulation.modele.Voiture;
+import modele.Route;
+import modele.Ville;
+import modele.Voiture;
+import modele.agent.Feu;
 
 import javax.swing.*;
 import java.awt.*;
