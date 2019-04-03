@@ -25,6 +25,9 @@ public class Simulateur {
     public void initialiser(int nbVoitures) {
         threadsVoitures.clear();
         ville.removeAllVoitures();
+
+        TourControle.go(ville.getFeux());
+
         for (int i = 0; i < nbVoitures; i++) {
             Point pt = ville.randomPointEntree();
             Voiture v = new Voiture(pt, ville.getPointsEntrees().get(pt), ville);
@@ -41,8 +44,6 @@ public class Simulateur {
             for (Feu f : ville.getFeux())
                 new Thread(f).start();
         }
-
-        TourControle.go(ville.getFeux());
     }
 
     public void pause() {

@@ -10,19 +10,20 @@ public class Main {
 
     public static void main(String[] args) {
         Ville ville = new Ville(440, 440);
+       /* Ville ville = new Ville(400, 500);
 
-     /*   ville.ajouter(new Route(0, 50, 500, Constante.largeurRoute));
-        ville.ajouter(new Route(100, 0, Constante.largeurRoute, 50));
-        ville.ajouter(new Route(250, 100, Constante.largeurRoute, 150));
-        ville.ajouter(new Route(300, 200, 100, Constante.largeurRoute));
-        ville.ajouter(new Route(350, 250, Constante.largeurRoute, 250));
+        ville.ajouter(new Route(0, 40, 400, Constante.largeurRoute));
+        ville.ajouter(new Route(100, 0, Constante.largeurRoute, 40));
+        ville.ajouter(new Route(250, 80, Constante.largeurRoute, 150));
+        ville.ajouter(new Route(290, 190, 70, Constante.largeurRoute));
+        ville.ajouter(new Route(320, 230, Constante.largeurRoute, 270));
         ville.ajouter(new Route(0, 200, 150, Constante.largeurRoute));
-        ville.ajouter(new Route(0, 350, 350, Constante.largeurRoute));
-        ville.ajouter(new Route(100, 250, Constante.largeurRoute, 100));
-        ville.ajouter(new Route(100, 400, Constante.largeurRoute, 100));
+        ville.ajouter(new Route(0, 340, 350, Constante.largeurRoute));
+        ville.ajouter(new Route(110, 240, Constante.largeurRoute, 100));
+        ville.ajouter(new Route(110, 380, Constante.largeurRoute, 120));
 
-        int[][] positionsFeux = {{95,87},{112,45},{155,62},{245,87},{305,62},{287,105},{362,345},{345,387},{387,405},
-                {155,362},{95,387},{112,345},{137,405}};
+        int[][] positionsFeux = {{100,70},{110,40},{140,50},{250,70},{290,50},{280,80},{330,340},{320,370},{350,380},
+                {150,350},{110,370},{120,340},{140,380}};
         
         Direction[] orientationsFeux = {Direction.Ouest, Direction.Nord, Direction.Est, Direction.Ouest, Direction.Est,
                 Direction.Sud, Direction.Nord, Direction.Ouest, Direction.Sud, Direction.Est, Direction.Ouest,
@@ -31,7 +32,7 @@ public class Main {
         List<Feu> feux = new ArrayList<>();
 
         for (int i = 0 ; i < positionsFeux.length ; i++)
-            feux.add(new Feu(positionsFeux[i][0], positionsFeux[i][1], orientationsFeux[i]));
+            feux.add(new Feu(positionsFeux[i][0], positionsFeux[i][1], orientationsFeux[i], ville));
 
         for(Feu f : feux)
             ville.ajouter(f);*/

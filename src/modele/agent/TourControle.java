@@ -36,7 +36,6 @@ public class TourControle implements Agent {
 
     public static void go(List<Feu> feux) {
         instance = new TourControle(feux);
-        new Thread(instance).start();
     }
 
     private void initialiserIntersection() {
