@@ -1,6 +1,7 @@
 package modele.message;
 
 import modele.agent.Agent;
+import vue.FenetreLogging;
 
 public abstract class Message {
 
@@ -14,6 +15,7 @@ public abstract class Message {
     }
 
     public void envoyer() {
+        FenetreLogging.ajouter(this.toString());
         destinataire.traiterMessage(this);
     }
 
@@ -25,7 +27,4 @@ public abstract class Message {
         return destinataire;
     }
 
-    public Performative getPerformative() {
-        return performative;
-    }
 }

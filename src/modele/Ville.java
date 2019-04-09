@@ -1,6 +1,7 @@
 package modele;
 
 import modele.agent.Feu;
+import modele.agent.Voiture;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,8 +44,11 @@ public class Ville {
         return voitures;
     }
 
-    public HashMap<Point, Direction> getPointsEntrees() {
-        return pointsEntrees;
+    public Direction getPointEntree(Point point) {
+        for (Point pt : pointsEntrees.keySet())
+            if (point.equals(pt))
+                return pointsEntrees.get(pt);
+        return null;
     }
 
     public Point randomPointEntree() {
@@ -65,7 +69,7 @@ public class Ville {
             nouveau = new Point(pt.getX(), pt.getY() + 1);
 
         this.pointsEntrees.put(nouveau, dir);
-        return nouveau;
+        return nouveau.copie();
     }
 
     public void ajouter(Route route) {
@@ -86,9 +90,6 @@ public class Ville {
         this.feux.add(feu);
     }
 
-    /**
-     * La voiture entre dans la ville
-     */
     public void ajouter(Voiture voiture) {
         this.voitures.add(voiture);
     }
@@ -97,48 +98,26 @@ public class Ville {
         this.voitures.clear();
     }
 
-    public Feu presenceFeuRouge(int x1, int y1, int x2, int y2) {
-        assert (x1 <= x2);
-        assert (y1 <= y2);
-
+    public Feu presenceFeu(Point position, Direction direction) {
         for (Feu f : feux)
-            if (x1 <= f.getX() && f.getX() <= x2 && y1 <= f.getY() && f.getY() <= y2 && f.getCouleur() == Couleur.Rouge)
-                return f;
+            if (f.getOrientation() == direction)
+                if (((direction == Direction.Nord || direction == Direction.Ouest) &&
+                        position.distance(f.getPosition()) < Constante.champVisionFeu && position.distance(f.getPosition()) > 0) ||
+                        ((direction == Direction.Sud || direction == Direction.Est) &&
+                                f.getPosition().distance(position) < Constante.champVisionFeu && f.getPosition().distance(position) > 0))
+                    return f;
         return null;
     }
 
-    public Voiture presenceVoiture(Voiture voiture) {
+    public boolean presenceVoiture(Point position, Direction direction) {
         for (Voiture v : voitures) {
-            if (v != voiture) {
-                if (voiture.getDirection() == Direction.Nord && v.getX() == voiture.getX() &&
-                        v.getY() <= voiture.getY() && v.getY() >= voiture.getY() - Constante.longueurVoiture - 5)
-                    return v;
-                if (voiture.getDirection() == Direction.Sud && v.getX() == voiture.getX() &&
-                        v.getY() >= voiture.getY() && v.getY() <= voiture.getY() + Constante.longueurVoiture + 5)
-                    return v;
-                if (voiture.getDirection() == Direction.Est && v.getY() == voiture.getY() &&
-                        v.getX() >= voiture.getX() && v.getX() <= voiture.getX() + Constante.longueurVoiture + 5)
-                    return v;
-                if (voiture.getDirection() == Direction.Ouest && v.getY() == voiture.getY() &&
-                        v.getX() <= voiture.getX() && v.getX() >= voiture.getX() - Constante.longueurVoiture - 5)
-                    return v;
-            }
+            if (direction == v.getDirection())
+                if (((direction == Direction.Nord || direction == Direction.Ouest) &&
+                        position.distance(v.getPosition()) <= 5 + Constante.longueurVoiture && position.distance(v.getPosition()) > 0) ||
+                        ((direction == Direction.Sud || direction == Direction.Est) &&
+                                v.getPosition().distance(position) <= 5 + Constante.longueurVoiture && v.getPosition().distance(position) > 0))
+                    return true;
         }
-        return null;
-    }
-
-    public int distancesVoituresFeu(Feu feu) {
-        int res = 0;
-        for (Voiture v : voitures)
-            if (v.getDirection() == feu.getOrientation())
-                if (feu.getOrientation() == Direction.Nord && v.getX() == feu.getX() && v.getY() >= feu.getY() - Constante.largeurRoute && v.getY() <= feu.getY() + Constante.champVisionFeu)
-                    res += Math.pow(v.getY() - feu.getY() + Constante.largeurRoute, 2);
-                else if (feu.getOrientation() == Direction.Sud && v.getX() == feu.getX() && v.getY() <= feu.getY() + Constante.largeurRoute && v.getY() >= feu.getY() - Constante.champVisionFeu)
-                    res += Math.pow(feu.getY() + Constante.largeurRoute - v.getY(), 2);
-                else if (feu.getOrientation() == Direction.Ouest && v.getY() == feu.getY() && v.getX() >= feu.getX() - Constante.largeurRoute && v.getX() <= feu.getX() + Constante.champVisionFeu)
-                    res += Math.pow(feu.getX() - feu.getX() + Constante.largeurRoute, 2);
-                else if (feu.getOrientation() == Direction.Est && v.getY() == feu.getY() && v.getX() <= feu.getX() + Constante.largeurRoute && v.getX() >= feu.getX() - Constante.champVisionFeu)
-                    res += Math.pow(feu.getX() + Constante.largeurRoute - v.getX(), 2);
-        return res;
+        return false;
     }
 }

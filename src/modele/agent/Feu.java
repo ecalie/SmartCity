@@ -2,36 +2,28 @@ package modele.agent;
 
 import modele.Couleur;
 import modele.Direction;
-import modele.Ville;
-import modele.message.Message;
+import modele.Point;
+import modele.message.*;
 import observer.Observable;
-import modele.message.MessageChangementEtat;
-import modele.message.MessageUtilite;
 
 public class Feu extends Observable implements Agent {
 
-    private int x;
-    private int y;
+    private Point position;
     private Direction orientation;
     private Couleur couleur;
-    private Ville ville;
-    private int utilite;
 
-    public Feu(int x, int y, Direction orientation, Ville ville) {
-        this.x = x;
-        this.y = y;
+    public Feu(Point position, Direction orientation) {
+        this.position = position;
         this.orientation = orientation;
-        this.couleur = Couleur.Rouge;
-        this.ville = ville;
-        this.utilite = 0;
+
+        if (orientation == Direction.Est | orientation == Direction.Ouest)
+            this.couleur = Couleur.Vert;
+        else
+            this.couleur = Couleur.Rouge;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    public Point getPosition() {
+        return position;
     }
 
     public Couleur getCouleur() {
@@ -42,21 +34,6 @@ public class Feu extends Observable implements Agent {
         return orientation;
     }
 
-    public int getUtilite() {
-        return utilite;
-    }
-
-    @Override
-    public void run() {
-        int oldNb = utilite;
-        while (true) {
-            utilite = ville.distancesVoituresFeu(this);
-            if (utilite != oldNb) {
-                this.envoyerMessage(new MessageUtilite(this, TourControle.getInstance(), utilite));
-                oldNb = utilite;
-            }
-        }
-    }
 
     @Override
     public void envoyerMessage(Message message) {
@@ -69,11 +46,19 @@ public class Feu extends Observable implements Agent {
             MessageChangementEtat m = (MessageChangementEtat) message;
             this.couleur = m.getInformation();
             this.notifier();
+        } else if (message instanceof MessageArrivee) {
+            this.envoyerMessage(new MessageArrivee(this, TourControle.getInstance(), (Voiture) message.getEmetteur()));
+        } else if (message instanceof MessageDepart) {
+            this.envoyerMessage(new MessageDepart(this, TourControle.getInstance(), (Voiture) message.getEmetteur()));
+        } else if (message instanceof MessageSortie) {
+            this.envoyerMessage(new MessageSortie(this, TourControle.getInstance(), (Voiture) message.getEmetteur()));
         }
     }
 
+
     @Override
     public String toString() {
-        return "Feu (" + this.x + "," + this.y + ")";
+        return "Feu (" + this.position + ")";
     }
+
 }

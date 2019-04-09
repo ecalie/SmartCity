@@ -1,8 +1,5 @@
+import modele.*;
 import vue.FenetreLogging;
-import modele.Constante;
-import modele.Direction;
-import modele.Route;
-import modele.Ville;
 import modele.agent.Feu;
 import vue.FenetreSimulation;
 
@@ -41,10 +38,10 @@ public class Main {
         ville.ajouter(new Route(200, 0, Constante.largeurRoute, 200));
         ville.ajouter(new Route(200, 240, Constante.largeurRoute, 200));
 
-        ville.ajouter(new Feu(200, 230, Direction.Est, ville));
-        ville.ajouter(new Feu(210, 200, Direction.Sud, ville));
-        ville.ajouter(new Feu(240, 210, Direction.Ouest, ville));
-        ville.ajouter(new Feu(230, 240, Direction.Nord, ville));
+        ville.ajouter(new Feu(new Point(200, 230), Direction.Est));
+        ville.ajouter(new Feu(new Point(210, 200), Direction.Sud));
+        ville.ajouter(new Feu(new Point(240, 210), Direction.Ouest));
+        ville.ajouter(new Feu(new Point(230, 240), Direction.Nord));
 
         new FenetreSimulation(ville);
         FenetreLogging.getInstance().setVisible(true);

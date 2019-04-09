@@ -2,7 +2,7 @@ package vue;
 
 import modele.Constante;
 import modele.Direction;
-import modele.Voiture;
+import modele.agent.Voiture;
 
 import java.awt.*;
 
@@ -15,14 +15,21 @@ public class DessinVoiture {
     }
 
     public void dessiner(Graphics g) {
-        g.setColor(Color.RED);
-        g.drawLine(voiture.getX(), voiture.getY(), voiture.getX(), voiture.getY());
         g.setColor(Color.BLUE);
-        if (voiture.getDirection() == Direction.Nord || voiture.getDirection() == Direction.Sud)
-            g.fillOval(voiture.getX() - Constante.largeurVoiture / 2, voiture.getY() - Constante.longueurVoiture / 2,
+        if (voiture.getDirection() == Direction.Nord)
+            g.fillOval(voiture.getPosition().getX()- Constante.largeurVoiture / 2, voiture.getPosition().getY() ,
                     Constante.largeurVoiture, Constante.longueurVoiture);
-        else
-            g.fillOval(voiture.getX() - Constante.longueurVoiture / 2, voiture.getY() - Constante.largeurVoiture / 2,
+
+        else if (voiture.getDirection() == Direction.Sud)
+            g.fillOval(voiture.getPosition().getX()-Constante.largeurVoiture/2, voiture.getPosition().getY() - Constante.longueurVoiture ,
+                    Constante.largeurVoiture, Constante.longueurVoiture);
+
+        else if (voiture.getDirection() == Direction.Est)
+            g.fillOval(voiture.getPosition().getX() - Constante.longueurVoiture , voiture.getPosition().getY() - Constante.largeurVoiture / 2,
+                    Constante.longueurVoiture, Constante.largeurVoiture);
+
+        else if (voiture.getDirection() == Direction.Ouest)
+            g.fillOval(voiture.getPosition().getX() , voiture.getPosition().getY() - Constante.largeurVoiture / 2,
                     Constante.longueurVoiture, Constante.largeurVoiture);
     }
 }

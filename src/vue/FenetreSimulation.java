@@ -3,8 +3,8 @@ package vue;
 import modele.Constante;
 import modele.Simulateur;
 import modele.Ville;
-import modele.Voiture;
 import modele.agent.Feu;
+import modele.agent.Voiture;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,14 +16,16 @@ public class FenetreSimulation extends JFrame {
     private JSlider sliderVitesse;
     private DessinVille dessinVille;
     private Simulateur simulateur;
+    private boolean premierGo;
 
     public FenetreSimulation(Ville ville) {
         super("Simulation");
         dessinVille = new DessinVille(ville);
         this.simulateur = new Simulateur(ville);
+        this.premierGo = true;
 
-        for (Voiture v : ville.getVoitures())
-            v.ajouterObserver(dessinVille);
+     /*   for (Voiture v : ville.getVoitures())
+            v.ajouterObserver(dessinVille);*/
 
         this.setLayout(new BorderLayout());
         this.add(dessinVille, BorderLayout.CENTER);
@@ -49,12 +51,15 @@ public class FenetreSimulation extends JFrame {
         btnGo.addActionListener(actionEvent -> {
             if (btnGo.isSelected()) {
 
+                if (premierGo) {
+                    premierGo = false;
+                    for (Feu f : ville.getFeux())
+                        f.ajouterObserver(dessinVille);
+                }
+
                 simulateur.initialiser(sliderInitialisation.getValue());
                 for (Voiture v : ville.getVoitures())
                     v.ajouterObserver(dessinVille);
-
-                for (Feu f : ville.getFeux())
-                    f.ajouterObserver(dessinVille);
 
                 dessinVille.repaint();
             } else {

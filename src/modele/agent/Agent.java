@@ -2,7 +2,7 @@ package modele.agent;
 
 import modele.message.Message;
 
-public interface Agent extends Runnable {
+public interface Agent {
 
     void envoyerMessage(Message message);
 

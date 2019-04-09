@@ -3,7 +3,7 @@ package vue;
 import observer.Observer;
 import modele.Route;
 import modele.Ville;
-import modele.Voiture;
+import modele.agent.Voiture;
 import modele.agent.Feu;
 
 import javax.swing.*;
