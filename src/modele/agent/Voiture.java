@@ -11,16 +11,22 @@ public class Voiture extends Observable implements Runnable, Agent {
     private Point position;
     private Direction direction;
     private Ville ville;
-    /* Le feu où est arrêtée la voiture. */
-    private Feu feu;
+    private Feu feu; // le prochain feu
     private boolean arrete;
     private boolean dansIntersection;
+    private boolean prioritaire;
 
     public Voiture(Ville ville) {
         this.ville = ville;
         this.position = ville.randomPointEntree();
         this.direction = ville.getPointEntree(this.position);
+        this.prioritaire = false;
         ville.ajouter(this);
+    }
+
+    public Voiture(Ville ville, boolean prioritaire) {
+        this(ville);
+        this.prioritaire = prioritaire;
     }
 
     public Point getPosition() {
@@ -31,12 +37,12 @@ public class Voiture extends Observable implements Runnable, Agent {
         return direction;
     }
 
-    public Feu getFeu() {
-        return feu;
-    }
-
     public boolean isDansIntersection() {
         return dansIntersection;
+    }
+
+    public boolean isPrioritaire() {
+        return prioritaire;
     }
 
     private void avancer() {
@@ -96,12 +102,34 @@ public class Voiture extends Observable implements Runnable, Agent {
 
             arrete = ville.presenceVoiture(position, direction);
         } else if (feu.getCouleur() == Couleur.Rouge) {
-            if ((direction == Direction.Nord || direction == Direction.Ouest) && position.distance(feu.getPosition()) < 5)
+            if ((direction == Direction.Nord || direction == Direction.Ouest)
+                    && position.distance(feu.getPosition()) < 5
+                    && position.distance(feu.getPosition()) > 0)
                 arrete = true;
-            else if ((direction == Direction.Sud || direction == Direction.Est) && position.distance(feu.getPosition()) > -5)
+            else if ((direction == Direction.Sud || direction == Direction.Est)
+                    && position.distance(feu.getPosition()) > -5
+                    && position.distance(feu.getPosition()) < 0)
                 arrete = true;
             else
                 arrete = ville.presenceVoiture(position, direction);
+
+            // le feu est passé rouge après que la voiture est passée le feu
+            // elle est peut-être encore dans l'intersection
+            if (!arrete) {
+                if ((direction == Direction.Nord || direction == Direction.Ouest)
+                        && position.distance(feu.getPosition()) < -Constante.longueurVoiture - Constante.largeurRoute) {
+                    // la voiture est sortie de l'intersection
+                    new MessageSortie(this, feu).envoyer();
+                    dansIntersection = false;
+                    feu = null;
+                } else if ((direction == Direction.Sud || direction == Direction.Est)
+                        && position.distance(feu.getPosition()) > Constante.longueurVoiture + Constante.largeurRoute) {
+                    // la voiture est sortie de l'intersection
+                    new MessageSortie(this, feu).envoyer();
+                    dansIntersection = false;
+                    feu = null;
+                }
+            }
 
         } else if (arrete) {
             arrete = ville.presenceVoiture(position, direction);
@@ -136,7 +164,8 @@ public class Voiture extends Observable implements Runnable, Agent {
     }
 
     @Override
-    public void traiterMessage(Message message) {}
+    public void traiterMessage(Message message) {
+    }
 
     @Override
     public void run() {

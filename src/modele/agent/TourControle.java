@@ -182,39 +182,48 @@ class ThreadSlave extends Thread {
 
         // ajouter l'utilité selon la distance de la voiture la plus proche
         if (minH < 2000)
-            utiliteHorizontale += (Constante.champVisionFeu-minH);
+            utiliteHorizontale += (Constante.champVisionFeu - minH);
         if (minV < 2000)
             utiliteHorizontale -= (Constante.champVisionFeu - minV);
 
         // regarder s'il y a des voitures dans l'intersection
+        boolean intersectionVide = true;
         for (Feu f : voituresParFeux.keySet())
             for (Voiture v : voituresParFeux.get(f))
                 if (v.isDansIntersection())
-                    if (f.getOrientation() == Direction.Nord || f.getOrientation() == Direction.Sud)
+                   /* if (f.getOrientation() == Direction.Nord || f.getOrientation() == Direction.Sud)
                         utiliteHorizontale -= 1000;
                     else
-                        utiliteHorizontale += 1000;
+                        utiliteHorizontale += 1000;*/
+                    intersectionVide = false;
 
-        System.out.println(utiliteHorizontale);
+        // regarder si une voiture est prioritaire en approche
+        for (Feu f : voituresParFeux.keySet())
+            for (Voiture v : voituresParFeux.get(f))
+                if (v.isPrioritaire() && !v.isDansIntersection())
+                    if (v.getDirection() == Direction.Nord || v.getDirection() == Direction.Sud)
+                        utiliteHorizontale -= 5000;
+                    else
+                        utiliteHorizontale += 5000;
 
 
         // changer les couleurs des feux selon l'utilité
-        if (utiliteHorizontale > 0)
+        if (utiliteHorizontale > 0) {
             for (Feu f : voituresParFeux.keySet())
                 if (f.getOrientation() == Direction.Nord || f.getOrientation() == Direction.Sud)
                     TourControle.getInstance().envoyerMessage(
                             new MessageChangementEtat(TourControle.getInstance(), f, Couleur.Rouge));
-                else
+                else if (intersectionVide)
                     TourControle.getInstance().envoyerMessage(
                             new MessageChangementEtat(TourControle.getInstance(), f, Couleur.Vert));
-        else
+        } else {
             for (Feu f : voituresParFeux.keySet())
                 if (f.getOrientation() == Direction.Ouest || f.getOrientation() == Direction.Est)
                     TourControle.getInstance().envoyerMessage(
                             new MessageChangementEtat(TourControle.getInstance(), f, Couleur.Rouge));
-                else
+                else if (intersectionVide)
                     TourControle.getInstance().envoyerMessage(
                             new MessageChangementEtat(TourControle.getInstance(), f, Couleur.Vert));
-
+        }
     }
 }

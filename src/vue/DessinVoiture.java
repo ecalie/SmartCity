@@ -15,7 +15,11 @@ public class DessinVoiture {
     }
 
     public void dessiner(Graphics g) {
-        g.setColor(Color.BLUE);
+        if (voiture.isPrioritaire())
+            g.setColor(Color.GREEN);
+        else
+            g.setColor(Color.BLUE);
+
         if (voiture.getDirection() == Direction.Nord)
             g.fillOval(voiture.getPosition().getX()- Constante.largeurVoiture / 2, voiture.getPosition().getY() ,
                     Constante.largeurVoiture, Constante.longueurVoiture);

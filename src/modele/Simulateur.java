@@ -17,7 +17,7 @@ public class Simulateur {
         this.threadsVoitures = new ArrayList<>();
     }
 
-    public void initialiser(int nbVoitures) {
+    public void initialiser(int nbVoitures, int nbPrioritaires) {
         threadsVoitures.clear();
         ville.removeAllVoitures();
 
@@ -25,6 +25,12 @@ public class Simulateur {
 
         for (int i = 0; i < nbVoitures; i++) {
             Voiture v = new Voiture(ville);
+            Thread t = new Thread(v);
+            threadsVoitures.add(t);
+        }
+
+        for (int i = 0; i < nbPrioritaires; i++) {
+            Voiture v = new Voiture(ville, true);
             Thread t = new Thread(v);
             threadsVoitures.add(t);
         }

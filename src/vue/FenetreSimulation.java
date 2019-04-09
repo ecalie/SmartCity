@@ -12,7 +12,8 @@ import java.awt.*;
 public class FenetreSimulation extends JFrame {
 
     private JToggleButton btnGo;
-    private JSlider sliderInitialisation;
+    private JSlider sliderVoitures;
+    private JSlider sliderPrioritaires;
     private JSlider sliderVitesse;
     private DessinVille dessinVille;
     private Simulateur simulateur;
@@ -35,7 +36,8 @@ public class FenetreSimulation extends JFrame {
         panelBoutons.setPreferredSize(new Dimension(250, dessinVille.getHeight()));
 
         this.ajouterBoutonGo(panelBoutons, ville);
-        this.ajouterSliderVoiture(panelBoutons);
+        this.ajouterSliderVoitures(panelBoutons);
+        this.ajouterSliderPrioritaires(panelBoutons);
         this.ajouterSliderVitesse(panelVitesse);
 
         this.add(panelBoutons, BorderLayout.WEST);
@@ -57,7 +59,7 @@ public class FenetreSimulation extends JFrame {
                         f.ajouterObserver(dessinVille);
                 }
 
-                simulateur.initialiser(sliderInitialisation.getValue());
+                simulateur.initialiser(sliderVoitures.getValue(), sliderPrioritaires.getValue());
                 for (Voiture v : ville.getVoitures())
                     v.ajouterObserver(dessinVille);
 
@@ -69,20 +71,20 @@ public class FenetreSimulation extends JFrame {
         panel.add(btnGo);
     }
 
-    private void ajouterSliderVoiture(JPanel panel) {
+    private void ajouterSliderVoitures(JPanel panel) {
         panel.add(new JLabel("                                                              "));
-        panel.add(new JLabel("Nb voitures initialement :"));
+        panel.add(new JLabel("Nb voitures :"));
 
         JPanel panel1 = new JPanel(new FlowLayout());
         JLabel label = new JLabel("5 ");
-        sliderInitialisation = new JSlider(0, 0, 20, 5);
-        label.setLabelFor(sliderInitialisation);
-        sliderInitialisation.addChangeListener(changeEvent -> label.setText(sliderInitialisation.getValue() + " "));
-        sliderInitialisation.setMajorTickSpacing(5);
-        sliderInitialisation.setMinorTickSpacing(1);
-        sliderInitialisation.setPaintTicks(true);
+        sliderVoitures = new JSlider(0, 0, 20, 5);
+        label.setLabelFor(sliderVoitures);
+        sliderVoitures.addChangeListener(changeEvent -> label.setText(sliderVoitures.getValue() + " "));
+        sliderVoitures.setMajorTickSpacing(5);
+        sliderVoitures.setMinorTickSpacing(1);
+        sliderVoitures.setPaintTicks(true);
         panel1.add(label);
-        panel1.add(sliderInitialisation);
+        panel1.add(sliderVoitures);
 
         panel.add(panel1);
     }
@@ -105,5 +107,22 @@ public class FenetreSimulation extends JFrame {
         sliderVitesse.setPaintTicks(true);
 
         panel.add(sliderVitesse);
+    }
+
+    private void ajouterSliderPrioritaires(JPanel panel) {
+        panel.add(new JLabel("                                                              "));
+        panel.add(new JLabel("Nb voitures prioritaires :"));
+
+        JPanel panel1 = new JPanel(new FlowLayout());
+        JLabel label = new JLabel("1 ");
+        sliderPrioritaires = new JSlider(0, 0, 5, 1);
+        label.setLabelFor(sliderPrioritaires);
+        sliderPrioritaires.addChangeListener(changeEvent -> label.setText(sliderPrioritaires.getValue() + " "));
+        sliderPrioritaires.setMajorTickSpacing(1);
+        sliderPrioritaires.setPaintTicks(true);
+        panel1.add(label);
+        panel1.add(sliderPrioritaires);
+
+        panel.add(panel1);
     }
 }
