@@ -3,28 +3,28 @@ package vue;
 import javax.swing.*;
 import java.awt.*;
 
-public class FenetreLogging extends JFrame {
-    private static FenetreLogging instance;
+public class FenetreMessages extends JFrame {
+    private static FenetreMessages instance;
 
     private JTextArea logging;
     private JScrollPane scroll;
 
-    private FenetreLogging() {
-        super("Logging");
+    private FenetreMessages() {
+        super("Messages envoyés");
 
         logging = new JTextArea(20, 25);
         logging.setBackground(Color.GRAY);
         scroll = new JScrollPane(logging);
         this.add(scroll);
 
-        this.setLocation(800,  0);
+        this.setLocation(700,  0);
         this.pack();
         this.setExtendedState(JFrame.MAXIMIZED_VERT);
     }
 
-    public static FenetreLogging getInstance() {
+    public static FenetreMessages getInstance() {
         if (instance == null)
-            instance = new FenetreLogging();
+            instance = new FenetreMessages();
 
         return instance;
     }

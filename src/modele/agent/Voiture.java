@@ -15,6 +15,7 @@ public class Voiture extends Observable implements Runnable, Agent {
     private boolean arrete;
     private boolean dansIntersection;
     private boolean prioritaire;
+    private int tempsAttente;
 
     public Voiture(Ville ville) {
         this.ville = ville;
@@ -48,8 +49,22 @@ public class Voiture extends Observable implements Runnable, Agent {
     private void avancer() {
         while (true) {
 
-            // regarder s'il y a un feu ou une voiture devant
+            // mettre à jour les croyances
             this.see();
+
+            while (arrete) {
+                if (feu != null && feu.getCouleur() == Couleur.Rouge)
+                    this.tempsAttente++;
+                // mettre à jour les croyances
+                this.see();
+
+                // attendre avant de ré-éxaminer la situation
+                try {
+                    Thread.sleep(Constante.tempsPause);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
             while (!arrete) {
                 // déplacer la voiture
@@ -66,11 +81,12 @@ public class Voiture extends Observable implements Runnable, Agent {
                 if (sortie()) {
                     position = ville.randomPointEntree();
                     direction = ville.getPointEntree(position);
-                    System.out.println(position);
                 }
 
+                // mettre à jour les croyances
                 this.see();
 
+                // attendre avant d'avancer à nouveau
                 try {
                     Thread.sleep(Constante.tempsPause);
                 } catch (Exception e) {
@@ -78,16 +94,7 @@ public class Voiture extends Observable implements Runnable, Agent {
                 }
 
                 this.notifier();
-            }/*
-            try {
-                if (feu != null) {
-                    synchronized (this) {
-                        this.wait();
-                    }
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
+            }
         }
     }
 
@@ -147,6 +154,10 @@ public class Voiture extends Observable implements Runnable, Agent {
             if (position.distance(feu.getPosition()) == 0) {
                 dansIntersection = true;
                 new MessageDepart(this, feu).envoyer();
+
+
+                    CalculateurTempsAttente.getInstance().ajouterTempsAttente(tempsAttente);
+                this.tempsAttente = 0;
             }
         }
     }

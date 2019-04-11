@@ -96,6 +96,7 @@ public class TourControle implements Agent {
     private void traiterArrivee(MessageArrivee message) {
         for (ThreadSlave ts : esclaves)
             if (ts.getVoituresParFeux().keySet().contains(message.getEmetteur())) {
+                ts.stop();
                 ts.ajouterVoiture(message.getInformation(), (Feu) (message.getEmetteur()));
                 ts = new ThreadSlave(ts.getVoituresParFeux());
                 ts.start();
@@ -105,6 +106,7 @@ public class TourControle implements Agent {
     private void traiterDepart(MessageDepart message) {
         for (ThreadSlave ts : esclaves)
             if (ts.getVoituresParFeux().keySet().contains(message.getEmetteur())) {
+                ts.stop();
                 ts = new ThreadSlave(ts.getVoituresParFeux());
                 ts.start();
             }
@@ -113,6 +115,7 @@ public class TourControle implements Agent {
     private void traiterSortie(MessageSortie message) {
         for (ThreadSlave ts : esclaves)
             if (ts.getVoituresParFeux().keySet().contains(message.getEmetteur())) {
+                ts.stop();
                 ts.retirerVoiture(message.getInformation(), (Feu) (message.getEmetteur()));
                 ts = new ThreadSlave(ts.getVoituresParFeux());
                 ts.start();
@@ -138,7 +141,6 @@ class ThreadSlave extends Thread {
         for (Feu f : feux)
             voituresParFeux.put(f, new ArrayList<>());
     }
-
 
     public HashMap<Feu, List<Voiture>> getVoituresParFeux() {
         return voituresParFeux;
@@ -190,12 +192,13 @@ class ThreadSlave extends Thread {
         boolean intersectionVide = true;
         for (Feu f : voituresParFeux.keySet())
             for (Voiture v : voituresParFeux.get(f))
-                if (v.isDansIntersection())
-                   /* if (f.getOrientation() == Direction.Nord || f.getOrientation() == Direction.Sud)
+                if (v.isDansIntersection()) {
+                    if (f.getOrientation() == Direction.Nord || f.getOrientation() == Direction.Sud)
                         utiliteHorizontale -= 1000;
                     else
-                        utiliteHorizontale += 1000;*/
+                        utiliteHorizontale += 1000;
                     intersectionVide = false;
+                }
 
         // regarder si une voiture est prioritaire en approche
         for (Feu f : voituresParFeux.keySet())

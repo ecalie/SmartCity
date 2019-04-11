@@ -7,5 +7,5 @@ public class Constante {
     public static final int largeurVoiture = 14;
     public static final int tempsPauseBase = 20;
     public static final int champVisionFeu = 200;
-    public static int tempsPause = 100;
+    public static int tempsPause = 20;
 }

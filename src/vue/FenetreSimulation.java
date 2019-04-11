@@ -25,9 +25,6 @@ public class FenetreSimulation extends JFrame {
         this.simulateur = new Simulateur(ville);
         this.premierGo = true;
 
-     /*   for (Voiture v : ville.getVoitures())
-            v.ajouterObserver(dessinVille);*/
-
         this.setLayout(new BorderLayout());
         this.add(dessinVille, BorderLayout.CENTER);
 
@@ -99,7 +96,7 @@ public class FenetreSimulation extends JFrame {
         label.setLabelFor(sliderVitesse);
         sliderVitesse.addChangeListener(changeEvent -> {
             label.setText(sliderVitesse.getValue() * 10 + "%");
-            Constante.tempsPause = Constante.tempsPauseBase / sliderVitesse.getValue() * 10;
+            Constante.tempsPause = Constante.tempsPauseBase *10 / sliderVitesse.getValue();
         });
 
         sliderVitesse.setMajorTickSpacing(5);

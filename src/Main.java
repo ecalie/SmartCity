@@ -1,7 +1,8 @@
 import modele.*;
-import vue.FenetreLogging;
+import vue.FenetreMessages;
 import modele.agent.Feu;
 import vue.FenetreSimulation;
+import vue.GraphiqueTempsAttente;
 
 public class Main {
 
@@ -44,6 +45,7 @@ public class Main {
         ville.ajouter(new Feu(new Point(230, 240), Direction.Nord));
 
         new FenetreSimulation(ville);
-        FenetreLogging.getInstance().setVisible(true);
+        FenetreMessages.getInstance().setVisible(true);
+        new GraphiqueTempsAttente();
     }
 }
