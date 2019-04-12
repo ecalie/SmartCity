@@ -1,7 +1,6 @@
 package modele.message;
 
 import modele.Couleur;
-import modele.agent.Agent;
 import modele.agent.Feu;
 import modele.agent.TourControle;
 

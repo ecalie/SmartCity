@@ -1,6 +1,5 @@
 package modele;
 
-import modele.agent.Feu;
 import modele.agent.TourControle;
 import modele.agent.Voiture;
 

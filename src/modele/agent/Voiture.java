@@ -19,9 +19,11 @@ public class Voiture extends Observable implements Runnable, Agent {
 
     public Voiture(Ville ville) {
         this.ville = ville;
-        this.position = ville.randomPointEntree();
-        this.direction = ville.getPointEntree(this.position);
+        PointEntree pt = ville.randomPointEntree();
+        this.position = pt;
+        this.direction = pt.getDirection();
         this.prioritaire = false;
+
         ville.ajouter(this);
     }
 
@@ -79,8 +81,9 @@ public class Voiture extends Observable implements Runnable, Agent {
 
                 // Si la voiture sort de la ville, elle réapparaît à un point d'entrée quelconque
                 if (sortie()) {
-                    position = ville.randomPointEntree();
-                    direction = ville.getPointEntree(position);
+                    PointEntree pt = ville.randomPointEntree();
+                    this.position = pt;
+                    this.direction = pt.getDirection();
                 }
 
                 // mettre à jour les croyances
@@ -155,8 +158,7 @@ public class Voiture extends Observable implements Runnable, Agent {
                 dansIntersection = true;
                 new MessageDepart(this, feu).envoyer();
 
-
-                    CalculateurTempsAttente.getInstance().ajouterTempsAttente(tempsAttente);
+                CalculateurTempsAttente.getInstance().ajouterTempsAttente(tempsAttente);
                 this.tempsAttente = 0;
             }
         }

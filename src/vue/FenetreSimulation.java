@@ -96,7 +96,7 @@ public class FenetreSimulation extends JFrame {
         label.setLabelFor(sliderVitesse);
         sliderVitesse.addChangeListener(changeEvent -> {
             label.setText(sliderVitesse.getValue() * 10 + "%");
-            Constante.tempsPause = Constante.tempsPauseBase *10 / sliderVitesse.getValue();
+            Constante.tempsPause = Constante.tempsPauseBase * 10 / sliderVitesse.getValue();
         });
 
         sliderVitesse.setMajorTickSpacing(5);

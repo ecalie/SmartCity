@@ -23,11 +23,11 @@ public class DessinFeu {
 
         if (feu.getOrientation() == Direction.Nord)
             g.drawLine(feu.getPosition().getX() - Constante.largeurRoute / 4, feu.getPosition().getY(), feu.getPosition().getX() + Constante.largeurRoute / 4, feu.getPosition().getY());
-         else if (feu.getOrientation() == Direction.Sud)
+        else if (feu.getOrientation() == Direction.Sud)
             g.drawLine(feu.getPosition().getX() - Constante.largeurRoute / 4, feu.getPosition().getY(), feu.getPosition().getX() + Constante.largeurRoute / 4, feu.getPosition().getY());
-         else if (feu.getOrientation() == Direction.Ouest)
+        else if (feu.getOrientation() == Direction.Ouest)
             g.drawLine(feu.getPosition().getX(), feu.getPosition().getY() - Constante.largeurRoute / 4, feu.getPosition().getX(), feu.getPosition().getY() + Constante.largeurRoute / 4);
-         else if (feu.getOrientation() == Direction.Est)
+        else if (feu.getOrientation() == Direction.Est)
             g.drawLine(feu.getPosition().getX(), feu.getPosition().getY() - Constante.largeurRoute / 4, feu.getPosition().getX(), feu.getPosition().getY() + Constante.largeurRoute / 4);
     }
 

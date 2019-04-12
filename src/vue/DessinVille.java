@@ -1,10 +1,10 @@
 package vue;
 
-import observer.Observer;
 import modele.Route;
 import modele.Ville;
-import modele.agent.Voiture;
 import modele.agent.Feu;
+import modele.agent.Voiture;
+import observer.Observer;
 
 import javax.swing.*;
 import java.awt.*;

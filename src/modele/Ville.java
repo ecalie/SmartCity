@@ -4,7 +4,6 @@ import modele.agent.Feu;
 import modele.agent.Voiture;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Ville {
@@ -13,7 +12,7 @@ public class Ville {
     private List<Voiture> voitures;
     private int longueur;
     private int largeur;
-    private HashMap<Point, Direction> pointsEntrees;
+    private List<PointEntree> pointsEntrees;
 
     public Ville(int longueur, int largeur) {
         this.longueur = longueur;
@@ -21,7 +20,7 @@ public class Ville {
         routes = new ArrayList<>();
         feux = new ArrayList<>();
         voitures = new ArrayList<>();
-        pointsEntrees = new HashMap<>();
+        pointsEntrees = new ArrayList<>();
     }
 
     public int getLongueur() {
@@ -44,46 +43,36 @@ public class Ville {
         return voitures;
     }
 
-    public Direction getPointEntree(Point point) {
-        for (Point pt : pointsEntrees.keySet())
-            if (point.equals(pt))
-                return pointsEntrees.get(pt);
-        return null;
-    }
-
-    public Point randomPointEntree() {
-        int random = (int) (Math.random() * this.pointsEntrees.keySet().size());
-        Point pt = (Point) this.pointsEntrees.keySet().toArray()[random];
-        Direction dir = this.pointsEntrees.get(pt);
+    public PointEntree randomPointEntree() {
+        int random = (int) (Math.random() * this.pointsEntrees.size());
+        PointEntree pt = this.pointsEntrees.get(random);
 
         // décaler le points pour éviter que deux voitures ne soient au même point au même moment
-        this.pointsEntrees.remove(pt);
-        Point nouveau = null;
         if (pt.getX() <= 0)
-            nouveau = new Point(pt.getX() - 1, pt.getY());
+            this.pointsEntrees.set(random, new PointEntree(pt.getX() - 1, pt.getY(), pt.getDirection(), pt.getPatch()));
         else if (pt.getX() >= longueur)
-            nouveau = new Point(pt.getX() + 1, pt.getY());
+            this.pointsEntrees.set(random, new PointEntree(pt.getX() + 1, pt.getY(), pt.getDirection(), pt.getPatch()));
         else if (pt.getY() <= 0)
-            nouveau = new Point(pt.getX(), pt.getY() - 1);
+            this.pointsEntrees.set(random, new PointEntree(pt.getX(), pt.getY() - 1, pt.getDirection(), pt.getPatch()));
         else if (pt.getY() >= largeur)
-            nouveau = new Point(pt.getX(), pt.getY() + 1);
+            this.pointsEntrees.set(random, new PointEntree(pt.getX(), pt.getY() + 1, pt.getDirection(), pt.getPatch()));
 
-        this.pointsEntrees.put(nouveau, dir);
-        return nouveau.copie();
+        return pt.copie();
     }
 
     public void ajouter(Route route) {
         this.routes.add(route);
 
-        if (route.getX() == 0)
-            this.pointsEntrees.put(new Point(0, route.getY() + Constante.largeurRoute * 3 / 4), Direction.Est);
-        if (route.getX() + route.getLongueur() == this.longueur)
-            this.pointsEntrees.put(new Point(this.longueur, route.getY() + Constante.largeurRoute / 4), Direction.Ouest);
+        // ajouter un point d'entrée si besoin
+        if (route.getPosition().getX() == 0)
+            this.pointsEntrees.add(new PointEntree(0, route.getPosition().getY() + Constante.largeurRoute * 3 / 4, Direction.Est, routes));
+        if (route.getPosition().getX() + route.getLongueur() == this.longueur)
+            this.pointsEntrees.add(new PointEntree(this.longueur, route.getPosition().getY() + Constante.largeurRoute / 4, Direction.Ouest, routes));
 
-        if (route.getY() == 0)
-            this.pointsEntrees.put(new Point(route.getX() + Constante.largeurRoute / 4, 0), Direction.Sud);
-        if (route.getY() + route.getLargeur() == this.largeur)
-            this.pointsEntrees.put(new Point(route.getX() + Constante.largeurRoute * 3 / 4, this.largeur), Direction.Nord);
+        if (route.getPosition().getY() == 0)
+            this.pointsEntrees.add(new PointEntree(route.getPosition().getX() + Constante.largeurRoute / 4, 0, Direction.Sud, routes));
+        if (route.getPosition().getY() + route.getLargeur() == this.largeur)
+            this.pointsEntrees.add(new PointEntree(route.getPosition().getX() + Constante.largeurRoute * 3 / 4, this.largeur, Direction.Nord, routes));
     }
 
     public void ajouter(Feu feu) {

@@ -17,7 +17,7 @@ public class FenetreMessages extends JFrame {
         scroll = new JScrollPane(logging);
         this.add(scroll);
 
-        this.setLocation(700,  0);
+        this.setLocation(700, 0);
         this.pack();
         this.setExtendedState(JFrame.MAXIMIZED_VERT);
     }

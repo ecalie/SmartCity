@@ -1,11 +1,9 @@
 package vue;
 
 import modele.CalculateurTempsAttente;
-import modele.Constante;
 import observer.Observer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
@@ -13,7 +11,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GraphiqueTempsAttente extends JFrame implements Observer {
 
@@ -51,7 +48,7 @@ public class GraphiqueTempsAttente extends JFrame implements Observer {
         moyenne = moyenne / CalculateurTempsAttente.getInstance().getTempsAttente().size();
 
         // convertir en millisecondes
-    //    moyenne = moyenne * Constante.tempsPause;
+        //    moyenne = moyenne * Constante.tempsPause;
         this.tempsMoyen.setText(moyenne + " ticks");
 
         this.remove(chartPanel);
@@ -73,18 +70,18 @@ public class GraphiqueTempsAttente extends JFrame implements Observer {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         java.util.List<Double> tempsAttente = new ArrayList<>();
 
-        for (int i = 0 ; i < 11 ; i++)
+        for (int i = 0; i < 11; i++)
             tempsAttente.add(0.0);
 
         for (int i : CalculateurTempsAttente.getInstance().getTempsAttente()) {
-            if (i/10 < 10)
-                tempsAttente.set(i/10, tempsAttente.get(i/10) + 1);
+            if (i / 10 < 10)
+                tempsAttente.set(i / 10, tempsAttente.get(i / 10) + 1);
             else
-                tempsAttente.set(10,  tempsAttente.get(10) + 1);
+                tempsAttente.set(10, tempsAttente.get(10) + 1);
         }
 
-        for (int i  = 0 ; i < 11 ; i++)
-            dataset.addValue(tempsAttente.get(i), "", (i==10?"10+":i+""));
+        for (int i = 0; i < 11; i++)
+            dataset.addValue(tempsAttente.get(i), "", (i == 10 ? "10+" : i + ""));
 
         return dataset;
     }

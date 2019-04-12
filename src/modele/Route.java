@@ -1,24 +1,18 @@
 package modele;
 
 public class Route {
-    private int x;
-    private int y;
+    private Point position;
     private int longueur;
     private int largeur;
 
-    public Route(int x, int y, int longueur, int largeur) {
-        this.x = x;
-        this.y = y;
+    public Route(Point point, int longueur, int largeur) {
+        this.position = point;
         this.longueur = longueur;
         this.largeur = largeur;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
+    public Point getPosition() {
+        return position;
     }
 
     public int getLongueur() {
