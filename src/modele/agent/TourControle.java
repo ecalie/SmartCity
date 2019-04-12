@@ -95,9 +95,9 @@ public class TourControle implements Agent {
 
     private void traiterArrivee(MessageArrivee message) {
         for (ThreadSlave ts : esclaves)
-            if (ts.getVoituresParFeux().keySet().contains(message.getEmetteur())) {
+            if (ts.getVoituresParFeux().keySet().contains(message.getInformation())) {
                 ts.stop();
-                ts.ajouterVoiture(message.getInformation(), (Feu) (message.getEmetteur()));
+                ts.ajouterVoiture((Voiture) message.getEmetteur(), message.getInformation());
                 ts = new ThreadSlave(ts.getVoituresParFeux());
                 ts.start();
             }
@@ -105,7 +105,7 @@ public class TourControle implements Agent {
 
     private void traiterDepart(MessageDepart message) {
         for (ThreadSlave ts : esclaves)
-            if (ts.getVoituresParFeux().keySet().contains(message.getEmetteur())) {
+            if (ts.getVoituresParFeux().keySet().contains(message.getInformation())) {
                 ts.stop();
                 ts = new ThreadSlave(ts.getVoituresParFeux());
                 ts.start();
@@ -114,9 +114,9 @@ public class TourControle implements Agent {
 
     private void traiterSortie(MessageSortie message) {
         for (ThreadSlave ts : esclaves)
-            if (ts.getVoituresParFeux().keySet().contains(message.getEmetteur())) {
+            if (ts.getVoituresParFeux().keySet().contains(message.getInformation())) {
                 ts.stop();
-                ts.retirerVoiture(message.getInformation(), (Feu) (message.getEmetteur()));
+                ts.retirerVoiture((Voiture) message.getEmetteur(), message.getInformation());
                 ts = new ThreadSlave(ts.getVoituresParFeux());
                 ts.start();
             }

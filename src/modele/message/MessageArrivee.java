@@ -1,28 +1,25 @@
 package modele.message;
 
-import modele.agent.Agent;
+import modele.agent.Feu;
+import modele.agent.TourControle;
 import modele.agent.Voiture;
 
 public class MessageArrivee extends Message {
 
-    private Voiture information;
+    private Feu information;
 
-    public MessageArrivee(Agent emetteur, Agent destinataire, Voiture information) {
-        this(emetteur, destinataire);
-        this.information = information;
-    }
-
-    public Voiture getInformation() {
-        return information;
-    }
-
-    public MessageArrivee(Agent emetteur, Agent destinataire) {
+    public MessageArrivee(Voiture emetteur, TourControle destinataire, Feu information) {
         super(emetteur, destinataire);
+        this.information = information;
         this.performative = Performative.Inform;
+    }
+
+    public Feu getInformation() {
+        return information;
     }
 
     @Override
     public String toString() {
-        return destinataire + " <- +1 voiture";
+        return destinataire + " <- +1 voiture au " + information;
     }
 }

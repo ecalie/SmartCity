@@ -14,6 +14,6 @@ public class DessinRoute {
 
     public void dessiner(Graphics g) {
         g.setColor(Color.GRAY);
-        g.fillRect(route.getX(), route.getY(), route.getLongueur(), route.getLargeur());
+        g.fillRect(route.getPosition().getX(), route.getPosition().getY(), route.getLongueur(), route.getLargeur());
     }
 }

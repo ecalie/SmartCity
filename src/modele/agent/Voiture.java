@@ -107,7 +107,7 @@ public class Voiture extends Observable implements Runnable, Agent {
             feu = ville.presenceFeu(position, direction);
 
             if (feu != null) {
-                new MessageArrivee(this, feu).envoyer();
+                new MessageArrivee(this, TourControle.getInstance(), feu).envoyer();
             }
 
             arrete = ville.presenceVoiture(position, direction);
@@ -129,13 +129,13 @@ public class Voiture extends Observable implements Runnable, Agent {
                 if ((direction == Direction.Nord || direction == Direction.Ouest)
                         && position.distance(feu.getPosition()) < -Constante.longueurVoiture - Constante.largeurRoute) {
                     // la voiture est sortie de l'intersection
-                    new MessageSortie(this, feu).envoyer();
+                    new MessageSortie(this, TourControle.getInstance(), feu).envoyer();
                     dansIntersection = false;
                     feu = null;
                 } else if ((direction == Direction.Sud || direction == Direction.Est)
                         && position.distance(feu.getPosition()) > Constante.longueurVoiture + Constante.largeurRoute) {
                     // la voiture est sortie de l'intersection
-                    new MessageSortie(this, feu).envoyer();
+                    new MessageSortie(this, TourControle.getInstance(), feu).envoyer();
                     dansIntersection = false;
                     feu = null;
                 }
@@ -148,7 +148,7 @@ public class Voiture extends Observable implements Runnable, Agent {
             if (((direction == Direction.Nord || direction == Direction.Ouest) && position.distance(feu.getPosition()) < -Constante.longueurVoiture - Constante.largeurRoute) ||
                     ((direction == Direction.Sud || direction == Direction.Est) && position.distance(feu.getPosition()) > Constante.longueurVoiture + Constante.largeurRoute)) {
                 // la voiture est sortie de l'intersection
-                new MessageSortie(this, feu).envoyer();
+                new MessageSortie(this, TourControle.getInstance(), feu).envoyer();
                 dansIntersection = false;
                 feu = null;
             }
@@ -156,7 +156,7 @@ public class Voiture extends Observable implements Runnable, Agent {
             arrete = ville.presenceVoiture(position, direction);
             if (position.distance(feu.getPosition()) == 0) {
                 dansIntersection = true;
-                new MessageDepart(this, feu).envoyer();
+                new MessageDepart(this, TourControle.getInstance(), feu).envoyer();
 
                 CalculateurTempsAttente.getInstance().ajouterTempsAttente(tempsAttente);
                 this.tempsAttente = 0;

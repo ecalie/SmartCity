@@ -3,7 +3,8 @@ package modele.agent;
 import modele.Couleur;
 import modele.Direction;
 import modele.Point;
-import modele.message.*;
+import modele.message.Message;
+import modele.message.MessageChangementEtat;
 import observer.Observable;
 
 public class Feu extends Observable implements Agent {
@@ -46,12 +47,6 @@ public class Feu extends Observable implements Agent {
             MessageChangementEtat m = (MessageChangementEtat) message;
             this.couleur = m.getInformation();
             this.notifier();
-        } else if (message instanceof MessageArrivee) {
-            this.envoyerMessage(new MessageArrivee(this, TourControle.getInstance(), (Voiture) message.getEmetteur()));
-        } else if (message instanceof MessageDepart) {
-            this.envoyerMessage(new MessageDepart(this, TourControle.getInstance(), (Voiture) message.getEmetteur()));
-        } else if (message instanceof MessageSortie) {
-            this.envoyerMessage(new MessageSortie(this, TourControle.getInstance(), (Voiture) message.getEmetteur()));
         }
     }
 
