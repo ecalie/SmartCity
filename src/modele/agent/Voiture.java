@@ -104,6 +104,7 @@ public class Voiture extends Observable implements Runnable, Agent {
 
     private void see() {
         if (feu == null) {
+            // regarder si un feu est entré dans le champ de vision
             feu = ville.presenceFeu(position, direction);
 
             if (feu != null) {
@@ -112,6 +113,7 @@ public class Voiture extends Observable implements Runnable, Agent {
 
             arrete = ville.presenceVoiture(position, direction);
         } else if (feu.getCouleur() == Couleur.Rouge) {
+            // si un feu rouge est juste devant la voiture
             if ((direction == Direction.Nord || direction == Direction.Ouest)
                     && position.distance(feu.getPosition()) < 5
                     && position.distance(feu.getPosition()) > 0)

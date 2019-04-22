@@ -45,7 +45,7 @@ public class FenetreSimulation extends JFrame {
     }
 
     private void ajouterBoutonGo(JPanel panel, Ville ville) {
-        btnGo = new JToggleButton("   Go   ");
+        btnGo = new JToggleButton("    Go    ");
 
         btnGo.addActionListener(actionEvent -> {
             if (btnGo.isSelected()) {
